@@ -1,0 +1,31 @@
+.login-container{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+  gap: 10px;
+}
+
+.google-btn-discription{
+  font-size: 25px;
+  font-weight: 500;
+  color: #c0cdc2;
+
+}
+
+.login-google-btn{
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.icon{
+  color: red;
+  font-size: 20px;
+}
