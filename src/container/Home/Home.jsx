@@ -6,12 +6,12 @@ import styles from './Home.module.css';
 import BlogCard from '../../components/BlogCard/BlogCard';
 import { deltetePostFromList, setEditPostId, setPostList } from '../../slice/postSlice';
 import BlogForm from '../../components/BlogForm/BlogForm';
-import { collection, deleteDoc, getDocs } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase-config';
 
 const Home = () => {
-  const postList = useSelector(state => state.post.postList);
-  const id = useSelector(state => state.post.editPostId);
+  const {postList, editPostId, replaceObj} = useSelector(state => state.post);
+
   const dispatch = useDispatch();
 
   const blogsCollectionRef =  collection(db, 'blogs');
@@ -20,7 +20,7 @@ const Home = () => {
     const getDataFromFirebase = async() => {
       try{
         const results = await getDocs(blogsCollectionRef);
-        let getblogsFromFirestore = results.docs.map(blog => ({...blog.data()}));
+        let getblogsFromFirestore = results.docs.map(blog => ({...blog.data(), id: blog.id }));
         dispatch(setPostList(getblogsFromFirestore));
         // console.log(getblogsFromFirestore);
       }catch(err){
@@ -30,24 +30,26 @@ const Home = () => {
     getDataFromFirebase();
   },[])
 
-  const editFn = (id) =>{
+  const editFn = async (id) =>{
+    console.log(replaceObj);
+    const updateRef = doc(db, 'blogs', id)
+    await updateDoc(updateRef, replaceObj);
     dispatch(setEditPostId(id));
   }
-  const deleteFn = (id) =>{
+
+  const deleteFn = async (id) =>{
     dispatch(deltetePostFromList(id));
-    deleteDoc(blogsCollectionRef,)
+    const docRef = doc(blogsCollectionRef, id)
+    await deleteDoc(docRef);
   }
   
-  const onFormsSubmit = () => {
-
-  }
 
   return (
     <div className={styles.container}>
       {
-        id ? <BlogForm id = {id} postList = {postList} /> : 
+        editPostId ? <BlogForm id = {editPostId} postList = {postList} /> : 
         postList.map(post => <BlogCard 
-          key={post.id} 
+          key = {post.id}
           editFn={editFn}  
           deleteFn={deleteFn}
           {...post}/>)

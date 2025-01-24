@@ -1,18 +1,20 @@
 import React from 'react'
 import styles from './BlogCard.module.css'
 
+
 import { MdDeleteForever, MdEdit } from "react-icons/md";
 
 const BlogCard = (props) => {
-    
-    const { title, post, author, id } = props;
+
+    const { title, post, author, id} = props;
+
     const onEditClick = () => {
         props.editFn(id);
     }
-    const onDeleteClick = () => {
+
+    const onDeleteClick = async () => {
         props.deleteFn(id);
     }
-
 
     return (
         <div className={styles.container}>

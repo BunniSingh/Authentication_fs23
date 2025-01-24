@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 let postData = {
     postList: [],
-    editPostId: ""
+    editPostId: "",
+    replaceObj: {}
 }
 
 const postSlice = createSlice({
@@ -26,6 +27,7 @@ const postSlice = createSlice({
         replaceEditedPostToList (state, action) {
             let index = state.postList.findIndex(post => post.id === state.editPostId);
             state.postList.splice(index, 1 , action.payload);
+            state.replaceObj = action.payload;
             state.editPostId = '';
         }
     }

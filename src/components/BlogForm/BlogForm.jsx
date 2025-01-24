@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import styles from './BlogForm.module.css'
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { useRef} from 'react'
 import { useDispatch } from 'react-redux';
 import { replaceEditedPostToList } from '../../slice/postSlice';
@@ -41,7 +39,6 @@ const BlogForm = (props) => {
         const inputData = {
             title,
             post,
-            id: props.id ? props.id : uuidv4(),
             author 
         }
 
